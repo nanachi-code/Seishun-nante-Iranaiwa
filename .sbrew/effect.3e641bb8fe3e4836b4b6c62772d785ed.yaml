@@ -1,0 +1,17 @@
+﻿FormatVersion: 6
+Name: "RemoveBackground"
+Script: "RemoveBackground"
+Config:
+  Path:
+    Type: "System.String"
+    Value: "thx-bongo-OSU.png"
+  RandomSeed:
+    Type: "System.Int32"
+    Value: "0"
+    DisplayName: "Random seed"
+Layers:
+  89f7df7945944714ae1a5457af66ab4c:
+    Name: ""
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
