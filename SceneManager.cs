@@ -20,11 +20,12 @@ namespace StorybrewScripts
         private Color4 redColor = new Color4(236, 80, 83, 255);
         private Color4 blueMarineColor = new Color4(15, 155, 178, 255);
         private Color4 magentaColor = new Color4(198, 110, 118, 255);
-        private Color4 blueColor = new Color4(50, 98, 144, 255);
+        private Color4 blueColor = new Color4(1, 104, 195, 255);
         private Color4 violetColor = new Color4(150, 115, 179, 255);
+        private Color4 yellowColor = new Color4(248, 200, 93, 255);
 
         /*=============================================
-        //*               Scene 1
+        //*               Scenes
         =============================================*/
         private void Scene1(FontGenerator font)
         {
@@ -139,16 +140,35 @@ namespace StorybrewScripts
             generateHorizontalText("もう一瞬", font, 0.7f, 140, 7888, 8349, line2word5);
         }
 
-        /*=============================================
-        //*               Scene 2
-        =============================================*/
         private void Scene2()
         {
+            generateBackgroundColor(8349, 23118, whiteColor);
+            generateVerticalStripeBackground(10195, 11580, 60, blueColor, -60, true);
+            generateVerticalStripeBackground(12041, 13426, 45, magentaColor, 45, false);
+            generateHorizontalStripeBackground(13888, 15272, 60, blueMarineColor, false);
+            generateVerticalStripeBackground(15734, 17118, 45, yellowColor, 30, true);
+            generateVerticalStripeBackground(17580, 18965, 45, redColor, 0, true);
+            generateVerticalStripeBackground(19426, 20811, 60, blueColor, 60, false);
+            generateHorizontalStripeBackground(21272, 22657, 60, blueMarineColor, true);
+            generateVerticalStripeTransition(22830, 60, whiteColor, 45, true);
+
+            // Girl
             var girl = GetLayer("elements").CreateSprite("sb/elements/no-bg.png", OsbOrigin.Centre);
-            girl.Scale(8349, 0.4);
+            girl.Scale(8349, 0.5);
             girl.Fade(8349, 1);
             girl.Fade(23118, 0);
-            girl.Move(8349, 23118, new Vector2(127, 376), new Vector2(415, 108));
+            girl.Move(8349, 23118, new Vector2(150, 480), new Vector2(415, 320));
+        }
+
+        private void Scene3(FontGenerator font)
+        {
+            generateBackgroundColor(23118, 24041, yellowColor);
+            // Girl
+            var girl = GetLayer("elements").CreateSprite("sb/elements/no-bg.png", OsbOrigin.Centre);
+            girl.Scale(23118, 0.5);
+            girl.Fade(23118, 1);
+            girl.Fade(30503, 0);
+            girl.Move(23118, 30503, new Vector2(854, 480), new Vector2(715, 240));
         }
 
         /*=============================================
@@ -243,11 +263,202 @@ namespace StorybrewScripts
             sprite.Fade(endTime, 0);
         }
 
-        private void generateStripe(double startTime, double endTime, Color4 color)
+        private void generateVerticalStripeBackground(double startTime, double endTime, int thickness, Color4 color, int angle, bool rightToLeft = false)
         {
+            Assert((angle < 90 && angle >= 0) || (angle > -90 && angle <= 0), "Parameter angle of generateVerticalStripeBackground() can only accept value from -90 to 90 degree.");
 
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+            var actualLength = 854 + 480 * Math.Tan(MathHelper.DegreesToRadians(Math.Abs(angle)));
+            var spriteLength = (float)(Math.Sqrt(Math.Pow(854, 2) + Math.Pow(480, 2)) + thickness * Math.Tan(MathHelper.DegreesToRadians(Math.Abs(angle))));
+
+            if (angle < 90 && angle >= 0)
+            {
+                var openOrigin = rightToLeft ? OsbOrigin.TopRight : OsbOrigin.TopLeft;
+                var closeOrigin = rightToLeft ? OsbOrigin.TopLeft : OsbOrigin.TopRight;
+                var openX = rightToLeft
+                            ? (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness * (1 / Math.Sin(MathHelper.DegreesToRadians(angle)) - Math.Cos(MathHelper.DegreesToRadians(angle))));
+                var openY = rightToLeft
+                            ? 0f
+                            : (float)(0 - thickness * Math.Sin(MathHelper.DegreesToRadians(angle)));
+                var closeX = rightToLeft
+                            ? (float)(openX - thickness * Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                var closeY = rightToLeft
+                            ? (float)(0 - thickness * Math.Sin(MathHelper.DegreesToRadians(angle)))
+                            : 0f;
+                for (int i = 0; i <= (int)(actualLength / (thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))); i++)
+                {
+                    var openSprite = GetLayer("open-stripe").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
+                    openSprite.Color(startTime, color);
+                    openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
+                    openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
+                    openSprite.Fade(startTime, 1);
+                    openSprite.Fade(endTime - beat, 0);
+
+                    var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                    closeSprite.Color(endTime - beat, color);
+                    closeSprite.Rotate(endTime - beat, MathHelper.DegreesToRadians(angle));
+                    closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                    closeSprite.Fade(endTime - beat, 1);
+                    closeSprite.Fade(endTime, 0);
+
+                    openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                    closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                }
+            }
+            else if (angle > -90 && angle <= 0)
+            {
+                var openOrigin = rightToLeft ? OsbOrigin.BottomRight : OsbOrigin.BottomLeft;
+                var closeOrigin = rightToLeft ? OsbOrigin.BottomLeft : OsbOrigin.BottomRight;
+                var openX = rightToLeft
+                            ? (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness * (1 / Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))) - Math.Cos(MathHelper.DegreesToRadians(angle))));
+                var openY = rightToLeft
+                            ? 480f
+                            : (float)(480 + thickness * Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))));
+                var closeX = rightToLeft
+                            ? (float)(openX - thickness * Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                var closeY = rightToLeft
+                            ? (float)(480 + thickness * Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))))
+                            : 480f;
+                for (int i = 0; i <= (int)(actualLength / (thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))); i++)
+                {
+                    var openSprite = GetLayer("open-stripe").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
+                    openSprite.Color(startTime, color);
+                    openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
+                    openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
+                    openSprite.Fade(startTime, 1);
+                    openSprite.Fade(endTime - beat, 0);
+
+                    var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                    closeSprite.Color(endTime - beat, color);
+                    closeSprite.Rotate(endTime - beat, MathHelper.DegreesToRadians(angle));
+                    closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                    closeSprite.Fade(endTime - beat, 1);
+                    closeSprite.Fade(endTime, 0);
+
+                    openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                    closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                }
+            }
         }
 
+        private void generateHorizontalStripeBackground(double startTime, double endTime, int thickness, Color4 color, bool bottomToTop = false)
+        {
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+
+            var openOrigin = bottomToTop ? OsbOrigin.BottomLeft : OsbOrigin.TopLeft;
+            var closeOrigin = bottomToTop ? OsbOrigin.TopLeft : OsbOrigin.BottomLeft;
+            var openX = -107f;
+            var openY = bottomToTop
+                        ? 0 + thickness
+                        : 0;
+            var closeX = openX;
+            var closeY = bottomToTop
+                        ? 0
+                        : 0 + thickness;
+            for (int i = 0; i <= (int)(480 / thickness); i++)
+            {
+                var openSprite = GetLayer("open-stripe").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
+                openSprite.Color(startTime, color);
+                openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(854, 0), new Vector2(854, thickness));
+                openSprite.Fade(startTime, 1);
+                openSprite.Fade(endTime - beat, 0);
+
+                var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                closeSprite.Color(endTime - beat, color);
+                closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(854, thickness), new Vector2(854, 0));
+                closeSprite.Fade(endTime - beat, 1);
+                closeSprite.Fade(endTime, 0);
+
+                openY += thickness;
+                closeY += thickness;
+            }
+        }
+
+        private void generateVerticalStripeTransition(double startTime, int thickness, Color4 color, int angle, bool rightToLeft = false)
+        {
+            Assert((angle < 90 && angle >= 0) || (angle > -90 && angle <= 0), "Parameter angle of generateVerticalStripeTransition() can only accept value from -90 to 90 degree.");
+
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+            var actualLength = 854 + 480 * Math.Tan(MathHelper.DegreesToRadians(Math.Abs(angle)));
+            var spriteLength = (float)(Math.Sqrt(Math.Pow(854, 2) + Math.Pow(480, 2)) + thickness * Math.Tan(MathHelper.DegreesToRadians(Math.Abs(angle))));
+
+            if (angle < 90 && angle >= 0)
+            {
+                var openOrigin = rightToLeft ? OsbOrigin.TopRight : OsbOrigin.TopLeft;
+                var closeOrigin = rightToLeft ? OsbOrigin.TopLeft : OsbOrigin.TopRight;
+                var openX = rightToLeft
+                            ? (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness * (1 / Math.Sin(MathHelper.DegreesToRadians(angle)) - Math.Cos(MathHelper.DegreesToRadians(angle))));
+                var openY = rightToLeft
+                            ? 0f
+                            : (float)(0 - thickness * Math.Sin(MathHelper.DegreesToRadians(angle)));
+                var closeX = rightToLeft
+                            ? (float)(openX - thickness * Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                var closeY = rightToLeft
+                            ? (float)(0 - thickness * Math.Sin(MathHelper.DegreesToRadians(angle)))
+                            : 0f;
+                for (int i = 0; i <= (int)(actualLength / (thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))); i++)
+                {
+                    var openSprite = GetLayer("transition").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
+                    openSprite.Color(startTime, color);
+                    openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
+                    openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat / 2, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
+                    openSprite.Fade(startTime, 1);
+                    openSprite.Fade(startTime + beat / 2, 0);
+
+                    var closeSprite = GetLayer("transition").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                    closeSprite.Color(startTime + beat / 2, color);
+                    closeSprite.Rotate(startTime + beat / 2, MathHelper.DegreesToRadians(angle));
+                    closeSprite.ScaleVec(OsbEasing.OutCirc, startTime + beat / 2, startTime + beat * 3 / 2, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                    closeSprite.Fade(startTime + beat / 2, 1);
+                    closeSprite.Fade(startTime + beat * 3 / 2, 0);
+
+                    openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                    closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                }
+            }
+            else if (angle > -90 && angle <= 0)
+            {
+                var openOrigin = rightToLeft ? OsbOrigin.BottomRight : OsbOrigin.BottomLeft;
+                var closeOrigin = rightToLeft ? OsbOrigin.BottomLeft : OsbOrigin.BottomRight;
+                var openX = rightToLeft
+                            ? (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness * (1 / Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))) - Math.Cos(MathHelper.DegreesToRadians(angle))));
+                var openY = rightToLeft
+                            ? 480f
+                            : (float)(480 + thickness * Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))));
+                var closeX = rightToLeft
+                            ? (float)(openX - thickness * Math.Cos(MathHelper.DegreesToRadians(angle)))
+                            : (float)(-107 + thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                var closeY = rightToLeft
+                            ? (float)(480 + thickness * Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))))
+                            : 480f;
+                for (int i = 0; i <= (int)(actualLength / (thickness / Math.Cos(MathHelper.DegreesToRadians(angle)))); i++)
+                {
+                    var openSprite = GetLayer("open-stripe").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
+                    openSprite.Color(startTime, color);
+                    openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
+                    openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat / 2, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
+                    openSprite.Fade(startTime, 1);
+                    openSprite.Fade(startTime + beat / 2, 0);
+
+                    var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                    closeSprite.Color(startTime + beat, color);
+                    closeSprite.Rotate(startTime + beat, MathHelper.DegreesToRadians(angle));
+                    closeSprite.ScaleVec(OsbEasing.OutCirc, startTime + beat, startTime + beat * 3 / 2, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                    closeSprite.Fade(startTime + beat, 1);
+                    closeSprite.Fade(startTime + beat * 3 / 2, 0);
+
+                    openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                    closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
+                }
+            }
+        }
         /*=============================================
         //*                 Main
         =============================================*/
@@ -265,6 +476,7 @@ namespace StorybrewScripts
 
             Scene1(fontSoukouMincho);
             Scene2();
+            Scene3(fontSoukouMincho);
         }
     }
 }

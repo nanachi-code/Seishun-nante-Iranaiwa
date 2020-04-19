@@ -27,8 +27,23 @@ Layers:
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
+  f5e29207934c43aea90d8b01f5e98099:
+    Name: "open-stripe"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  591bf998fa454fbabc60d1c46e7465d4:
+    Name: "close-stripe"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
   c4dc538bafa34c59aeaf0112378a1648:
     Name: "elements"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  361077aa314e4f8db4c495f9fde03a72:
+    Name: "transition"
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
