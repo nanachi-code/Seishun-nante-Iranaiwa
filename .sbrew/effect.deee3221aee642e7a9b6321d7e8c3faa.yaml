@@ -42,6 +42,21 @@ Layers:
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
+  f4052c8b074d4af98ee87e8e6d129099:
+    Name: "elements-w"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  2c40834dba1a43a6b578c606bc561c78:
+    Name: "dropdown-text-bg"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  27b8f22788114c65bf33c00cb5d57621:
+    Name: "dropdown-text-element"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
   361077aa314e4f8db4c495f9fde03a72:
     Name: "transition"
     OsbLayer: Background

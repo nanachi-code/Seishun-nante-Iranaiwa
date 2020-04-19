@@ -153,7 +153,7 @@ namespace StorybrewScripts
             generateVerticalStripeTransition(22657, 60, whiteColor, 45, true);
 
             // Girl
-            var girl = GetLayer("elements").CreateSprite("sb/elements/no-bg.png", OsbOrigin.Centre);
+            var girl = GetLayer("elements").CreateSprite("sb/elements/s-girl.png", OsbOrigin.Centre);
             girl.Scale(8349, 0.5);
             girl.Fade(8349, 1);
             girl.Fade(23118, 0);
@@ -162,13 +162,66 @@ namespace StorybrewScripts
 
         private void Scene3(FontGenerator font)
         {
-            generateBackgroundColor(23118, 24041, yellowColor);
-            // Girl
-            var girl = GetLayer("elements").CreateSprite("sb/elements/no-bg.png", OsbOrigin.Centre);
+            //* 1st half
+            generateBackgroundColor(23118, 24503, yellowColor);
+            generateVerticalStripeBackground(24041, 25426, 60, blueColor, -60, true, false);
+            generateVerticalStripeBackground(24965, 27272, 45, magentaColor, 45, false, false);
+            generateHorizontalStripeBackground(26811, 28195, 60, blueMarineColor, false, false);
+            generateVerticalStripeBackground(27734, 29118, 45, yellowColor, 30, true, false);
+            generateVerticalStripeBackground(28657, 29580, 60, redColor, 0, true, false);
+            generateBackgroundColor(29580, 30041, blueMarineColor);
+            generateBackgroundColor(30041, 30272, magentaColor);
+            generateBackgroundColor(30272, 30964, yellowColor);
+
+            // Sleeping girl
+            var girl = GetLayer("elements").CreateSprite("sb/elements/s-girl.png", OsbOrigin.Centre);
             girl.Scale(23118, 0.5);
             girl.Fade(23118, 1);
-            girl.Fade(30503, 0);
-            girl.Move(23118, 30503, new Vector2(854, 480), new Vector2(715, 240));
+            girl.Fade(30272, 0);
+            girl.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
+
+            // Ice cream
+            var icecreamW = GetLayer("elements-w").CreateSprite("sb/elements/ice-cream-w.png", OsbOrigin.Centre);
+            icecreamW.Scale(23118, 0.5);
+            icecreamW.Fade(23118, 0);
+            icecreamW.Fade(29811, 1);
+            icecreamW.Fade(30964, 0);
+            icecreamW.Color(29811, yellowColor);
+            icecreamW.Color(30041, redColor);
+            icecreamW.Color(30272, magentaColor);
+            icecreamW.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
+
+            // Girl white 2
+            var girlW2 = GetLayer("elements-w").CreateSprite("sb/elements/s-girl-w-2.png", OsbOrigin.Centre);
+            girlW2.Scale(23118, 0.5);
+            girlW2.Fade(23118, 0);
+            girlW2.Fade(30041, 1);
+            girlW2.Fade(30964, 0);
+            girlW2.Color(30041, yellowColor);
+            girlW2.Color(30272, redColor);
+            girlW2.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
+
+            // Bubble
+            var bubbleW = GetLayer("elements-w").CreateSprite("sb/elements/bubble-w.png", OsbOrigin.Centre);
+            bubbleW.Scale(23118, 0.5);
+            bubbleW.Color(30272, blueColor);
+            bubbleW.Fade(23118, 0);
+            bubbleW.Fade(30272, 1);
+            bubbleW.Fade(30964, 0);
+            bubbleW.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
+
+            //* 2nd half
+            var mask = GetLayer("dropdown-text-element").CreateSprite("sb/elements/mask.png", OsbOrigin.BottomCentre);
+            mask.Scale(30503, 0.2);
+            generateDropdownTextAndElement(30503, 31426, "小さく", font, blueColor, mask);
+
+            var fan = GetLayer("dropdown-text-element").CreateSprite("sb/elements/fan.png", OsbOrigin.BottomCentre);
+            fan.Scale(31426, 0.2);
+            generateDropdownTextAndElement(31426, 32349, "小さく", font, yellowColor, fan);
+
+            var bubble = GetLayer("dropdown-text-element").CreateSprite("sb/elements/bubble.png", OsbOrigin.BottomCentre);
+            bubble.Scale(32349, 0.3);
+            generateDropdownTextAndElement(32349, 33272, "小さく", font, redColor, bubble);
         }
 
         /*=============================================
@@ -263,7 +316,7 @@ namespace StorybrewScripts
             sprite.Fade(endTime, 0);
         }
 
-        private void generateVerticalStripeBackground(double startTime, double endTime, int thickness, Color4 color, int angle, bool rightToLeft = false)
+        private void generateVerticalStripeBackground(double startTime, double endTime, int thickness, Color4 color, int angle, bool rightToLeft = false, bool withClosing = true)
         {
             Assert((angle < 90 && angle >= 0) || (angle > -90 && angle <= 0), "Parameter angle of generateVerticalStripeBackground() can only accept value from -90 to 90 degree.");
 
@@ -294,14 +347,23 @@ namespace StorybrewScripts
                     openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
                     openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
                     openSprite.Fade(startTime, 1);
-                    openSprite.Fade(endTime - beat, 0);
 
-                    var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
-                    closeSprite.Color(endTime - beat, color);
-                    closeSprite.Rotate(endTime - beat, MathHelper.DegreesToRadians(angle));
-                    closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
-                    closeSprite.Fade(endTime - beat, 1);
-                    closeSprite.Fade(endTime, 0);
+                    if (withClosing)
+                    {
+                        openSprite.Fade(endTime - beat, 0);
+
+                        var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                        closeSprite.Color(endTime - beat, color);
+                        closeSprite.Rotate(endTime - beat, MathHelper.DegreesToRadians(angle));
+                        closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                        closeSprite.Fade(endTime - beat, 1);
+                        closeSprite.Fade(endTime, 0);
+
+                    }
+                    else
+                    {
+                        openSprite.Fade(endTime, 0);
+                    }
 
                     openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
                     closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
@@ -330,14 +392,23 @@ namespace StorybrewScripts
                     openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
                     openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
                     openSprite.Fade(startTime, 1);
-                    openSprite.Fade(endTime - beat, 0);
 
-                    var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
-                    closeSprite.Color(endTime - beat, color);
-                    closeSprite.Rotate(endTime - beat, MathHelper.DegreesToRadians(angle));
-                    closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
-                    closeSprite.Fade(endTime - beat, 1);
-                    closeSprite.Fade(endTime, 0);
+                    if (withClosing)
+                    {
+                        openSprite.Fade(endTime - beat, 0);
+
+                        var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                        closeSprite.Color(endTime - beat, color);
+                        closeSprite.Rotate(endTime - beat, MathHelper.DegreesToRadians(angle));
+                        closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                        closeSprite.Fade(endTime - beat, 1);
+                        closeSprite.Fade(endTime, 0);
+                    }
+                    else
+                    {
+                        openSprite.Fade(endTime, 0);
+                    }
+
 
                     openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
                     closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
@@ -345,7 +416,7 @@ namespace StorybrewScripts
             }
         }
 
-        private void generateHorizontalStripeBackground(double startTime, double endTime, int thickness, Color4 color, bool bottomToTop = false)
+        private void generateHorizontalStripeBackground(double startTime, double endTime, int thickness, Color4 color, bool bottomToTop = false, bool withClosing = true)
         {
             var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
 
@@ -365,13 +436,22 @@ namespace StorybrewScripts
                 openSprite.Color(startTime, color);
                 openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(854, 0), new Vector2(854, thickness));
                 openSprite.Fade(startTime, 1);
-                openSprite.Fade(endTime - beat, 0);
 
-                var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
-                closeSprite.Color(endTime - beat, color);
-                closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(854, thickness), new Vector2(854, 0));
-                closeSprite.Fade(endTime - beat, 1);
-                closeSprite.Fade(endTime, 0);
+                if (withClosing)
+                {
+                    openSprite.Fade(endTime - beat, 0);
+
+                    var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
+                    closeSprite.Color(endTime - beat, color);
+                    closeSprite.ScaleVec(OsbEasing.InCirc, endTime - beat, endTime, new Vector2(854, thickness), new Vector2(854, 0));
+                    closeSprite.Fade(endTime - beat, 1);
+                    closeSprite.Fade(endTime, 0);
+                }
+                else
+                {
+                    openSprite.Fade(endTime, 0);
+                }
+
 
                 openY += thickness;
                 closeY += thickness;
@@ -459,6 +539,23 @@ namespace StorybrewScripts
                 }
             }
         }
+
+        private void generateDropdownTextAndElement(double startTime, double endTime, string text, FontGenerator font, Color4 color, OsbSprite element)
+        {
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+
+            var bg = GetLayer("dropdown-text-bg").CreateSprite("sb/common/pixel.png", OsbOrigin.TopLeft, new Vector2(-107, 0));
+            bg.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(854, 0), new Vector2(854, 480));
+            bg.Color(startTime, color);
+            bg.Fade(startTime, 1);
+            bg.Fade(endTime + beat, 0);
+
+            element.MoveY(OsbEasing.OutCirc, startTime, startTime + beat, 0, 200);
+            element.MoveY(OsbEasing.InCirc, endTime - beat, endTime, 200, 560);
+            element.Fade(startTime, 1);
+            element.Fade(endTime, 0);
+        }
+
         /*=============================================
         //*                 Main
         =============================================*/
