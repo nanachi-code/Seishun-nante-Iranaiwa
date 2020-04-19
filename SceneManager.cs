@@ -149,8 +149,8 @@ namespace StorybrewScripts
             generateVerticalStripeBackground(15734, 17118, 45, yellowColor, 30, true);
             generateVerticalStripeBackground(17580, 18965, 45, redColor, 0, true);
             generateVerticalStripeBackground(19426, 20811, 60, blueColor, 60, false);
-            generateHorizontalStripeBackground(21272, 22657, 60, blueMarineColor, true);
-            generateVerticalStripeTransition(22830, 60, whiteColor, 45, true);
+            generateHorizontalStripeBackground(21272, 23118, 60, blueMarineColor, true);
+            generateVerticalStripeTransition(22657, 60, whiteColor, 45, true);
 
             // Girl
             var girl = GetLayer("elements").CreateSprite("sb/elements/no-bg.png", OsbOrigin.Centre);
@@ -407,16 +407,16 @@ namespace StorybrewScripts
                     var openSprite = GetLayer("transition").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
                     openSprite.Color(startTime, color);
                     openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
-                    openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat / 2, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
+                    openSprite.ScaleVec(OsbEasing.OutExpo, startTime, startTime + beat, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
                     openSprite.Fade(startTime, 1);
-                    openSprite.Fade(startTime + beat / 2, 0);
+                    openSprite.Fade(startTime + beat, 0);
 
                     var closeSprite = GetLayer("transition").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
-                    closeSprite.Color(startTime + beat / 2, color);
-                    closeSprite.Rotate(startTime + beat / 2, MathHelper.DegreesToRadians(angle));
-                    closeSprite.ScaleVec(OsbEasing.OutCirc, startTime + beat / 2, startTime + beat * 3 / 2, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
-                    closeSprite.Fade(startTime + beat / 2, 1);
-                    closeSprite.Fade(startTime + beat * 3 / 2, 0);
+                    closeSprite.Color(startTime + beat, color);
+                    closeSprite.Rotate(startTime + beat, MathHelper.DegreesToRadians(angle));
+                    closeSprite.ScaleVec(OsbEasing.OutCirc, startTime + beat, startTime + beat * 2, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                    closeSprite.Fade(startTime + beat, 1);
+                    closeSprite.Fade(startTime + beat * 2, 0);
 
                     openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
                     closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
@@ -443,16 +443,16 @@ namespace StorybrewScripts
                     var openSprite = GetLayer("open-stripe").CreateSprite("sb/common/pixel.png", openOrigin, new Vector2(openX, openY));
                     openSprite.Color(startTime, color);
                     openSprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
-                    openSprite.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat / 2, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
+                    openSprite.ScaleVec(OsbEasing.OutExpo, startTime, startTime + beat, new Vector2(0, spriteLength), new Vector2(thickness, spriteLength));
                     openSprite.Fade(startTime, 1);
-                    openSprite.Fade(startTime + beat / 2, 0);
+                    openSprite.Fade(startTime + beat, 0);
 
                     var closeSprite = GetLayer("close-stripe").CreateSprite("sb/common/pixel.png", closeOrigin, new Vector2(closeX, closeY));
                     closeSprite.Color(startTime + beat, color);
                     closeSprite.Rotate(startTime + beat, MathHelper.DegreesToRadians(angle));
-                    closeSprite.ScaleVec(OsbEasing.OutCirc, startTime + beat, startTime + beat * 3 / 2, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
+                    closeSprite.ScaleVec(OsbEasing.OutCirc, startTime + beat, startTime + beat * 2, new Vector2(thickness, spriteLength), new Vector2(0, spriteLength));
                     closeSprite.Fade(startTime + beat, 1);
-                    closeSprite.Fade(startTime + beat * 3 / 2, 0);
+                    closeSprite.Fade(startTime + beat * 2, 0);
 
                     openX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
                     closeX += (float)(thickness / Math.Cos(MathHelper.DegreesToRadians(angle)));
@@ -468,6 +468,15 @@ namespace StorybrewScripts
             {
                 FontPath = "SoukouMincho.ttf",
                 FontSize = 200,
+                Color = Color4.White,
+                Padding = Vector2.Zero,
+                FontStyle = FontStyle.Regular,
+                TrimTransparency = true
+            });
+            var fontHonokaMincho = LoadFont("sb/lyrics/HonokaMincho", new FontDescription()
+            {
+                FontPath = "HonokaMincho.ttf",
+                FontSize = 72,
                 Color = Color4.White,
                 Padding = Vector2.Zero,
                 FontStyle = FontStyle.Regular,
