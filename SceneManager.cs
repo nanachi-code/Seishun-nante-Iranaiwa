@@ -52,7 +52,7 @@ namespace StorybrewScripts
                 sprite.Color(3272, Color4.White);
                 sprite.MoveX(3272, 320 + 107 + 854 / 4);
             };
-            generateVeritcalText("小さく", font, 0.1f, 320, 965, 4195, line1word1);
+            generateVeritcalText("小さく", font, 0.1f, 320, 240, "lyrics", 965, 4195, line1word1);
 
             // 遠くで
             AdditionalCommands line1word2 = (sprite) =>
@@ -63,7 +63,7 @@ namespace StorybrewScripts
                 sprite.Color(3272, Color4.White);
                 sprite.MoveX(3272, 320 + 107);
             };
-            generateVeritcalText("遠くで", font, 0.1f, 320 - 107, 1888, 4195, line1word2);
+            generateVeritcalText("遠くで", font, 0.1f, 320 - 107, 240, "lyrics", 1888, 4195, line1word2);
 
             // 何かが
             AdditionalCommands line1word3 = (sprite) =>
@@ -72,10 +72,10 @@ namespace StorybrewScripts
                 sprite.Color(3272, Color4.White);
                 sprite.MoveX(3272, 320 - 107);
             };
-            generateVeritcalText("何かが", font, 0.1f, 320 - 854 / 4, 2811, 4195, line1word3);
+            generateVeritcalText("何かが", font, 0.1f, 320 - 854 / 4, 240, "lyrics", 2811, 4195, line1word3);
 
             // 鳴った
-            generateVeritcalText("鳴った", font, 0.1f, 320 - 107 - 854 / 4, 3272, 4195);
+            generateVeritcalText("鳴った", font, 0.1f, 320 - 107 - 854 / 4, 240, "lyrics", 3272, 4195);
 
             /*=============================================
             //*                Line 2
@@ -100,7 +100,7 @@ namespace StorybrewScripts
                 sprite.MoveX(6041, 320 + 107 + 854 / 4);
                 sprite.Color(6965, blueMarineColor);
             };
-            generateVeritcalText("君の", font, 0.1f, 320, 4195, 7426, line2word1);
+            generateVeritcalText("君の", font, 0.1f, 320, 240, "lyrics", 4195, 7426, line2word1);
 
             // 横顔を
             AdditionalCommands line2word2 = (sprite) =>
@@ -112,7 +112,7 @@ namespace StorybrewScripts
                 sprite.MoveX(6041, 320 + 107);
                 sprite.Color(6965, blueMarineColor);
             };
-            generateVeritcalText("横顔を", font, 0.1f, 320 - 107, 4657, 7426, line2word2);
+            generateVeritcalText("横顔を", font, 0.1f, 320 - 107, 240, "lyrics", 4657, 7426, line2word2);
 
             // 追った
             AdditionalCommands line2word3 = (sprite) =>
@@ -122,7 +122,7 @@ namespace StorybrewScripts
                 sprite.MoveX(6041, 320 - 107);
                 sprite.Color(6965, blueMarineColor);
             };
-            generateVeritcalText("追った", font, 0.1f, 320 - 854 / 4, 5118, 7426, line2word3);
+            generateVeritcalText("追った", font, 0.1f, 320 - 854 / 4, 240, "lyrics", 5118, 7426, line2word3);
 
             // 一瞬、
             AdditionalCommands line2word4 = (sprite) =>
@@ -130,7 +130,7 @@ namespace StorybrewScripts
                 sprite.Color(6041, Color4.White);
                 sprite.Color(6965, blueMarineColor);
             };
-            generateVeritcalText("一瞬、", font, 0.1f, 320 - 107 - 854 / 4, 6041, 7426, line2word4);
+            generateVeritcalText("一瞬、", font, 0.1f, 320 - 107 - 854 / 4, 240, "lyrics", 6041, 7426, line2word4);
 
             // もう一瞬
             AdditionalCommands line2word5 = (sprite) =>
@@ -187,7 +187,7 @@ namespace StorybrewScripts
             icecreamW.Fade(29811, 1);
             icecreamW.Fade(30964, 0);
             icecreamW.Color(29811, yellowColor);
-            icecreamW.Color(30041, redColor);
+            icecreamW.Color(30041, blueMarineColor);
             icecreamW.Color(30272, magentaColor);
             icecreamW.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
 
@@ -211,17 +211,17 @@ namespace StorybrewScripts
             bubbleW.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
 
             //* 2nd half
-            var mask = GetLayer("dropdown-text-element").CreateSprite("sb/elements/mask.png", OsbOrigin.BottomCentre);
+            var mask = GetLayer("dropdown-element").CreateSprite("sb/elements/mask.png", OsbOrigin.BottomCentre);
             mask.Scale(30503, 0.2);
             generateDropdownTextAndElement(30503, 31426, "小さく", font, blueColor, mask);
 
-            var fan = GetLayer("dropdown-text-element").CreateSprite("sb/elements/fan.png", OsbOrigin.BottomCentre);
+            var fan = GetLayer("dropdown-element").CreateSprite("sb/elements/fan.png", OsbOrigin.BottomCentre);
             fan.Scale(31426, 0.2);
-            generateDropdownTextAndElement(31426, 32349, "小さく", font, yellowColor, fan);
+            generateDropdownTextAndElement(31426, 32349, "遠くで", font, yellowColor, fan);
 
-            var bubble = GetLayer("dropdown-text-element").CreateSprite("sb/elements/bubble.png", OsbOrigin.BottomCentre);
+            var bubble = GetLayer("dropdown-element").CreateSprite("sb/elements/bubble.png", OsbOrigin.BottomCentre);
             bubble.Scale(32349, 0.3);
-            generateDropdownTextAndElement(32349, 33272, "小さく", font, redColor, bubble);
+            generateDropdownTextAndElement(32349, 33272, "何かが\n鳴った", font, redColor, bubble);
         }
 
         /*=============================================
@@ -243,7 +243,7 @@ namespace StorybrewScripts
             vig.Scale(965, 854.0 / 1920.0);
         }
 
-        private void generateVeritcalText(string text, FontGenerator font, float fontScale, float initPositionX, double startTime, double endTime, AdditionalCommands callback = null)
+        private void generateVeritcalText(string text, FontGenerator font, float fontScale, float initPositionX, float initPositionY, string layer, double startTime, double endTime, AdditionalCommands callback = null)
         {
             var lineHeight = 0f;
             var letterX = initPositionX;
@@ -253,14 +253,14 @@ namespace StorybrewScripts
                 lineHeight += texture.BaseHeight * fontScale;
             }
 
-            var letterY = 240 - lineHeight * 0.5f;
+            var letterY = initPositionY - lineHeight * 0.5f;
             foreach (var letter in text)
             {
                 var texture = font.GetTexture(letter.ToString());
                 if (!texture.IsEmpty)
                 {
-                    var position = new Vector2(letterX, letterY) + texture.OffsetFor(OsbOrigin.Centre) * fontScale;
-                    var sprite = GetLayer("lyrics").CreateSprite(texture.Path, OsbOrigin.Centre, position);
+                    var position = new Vector2(letterX, letterY);
+                    var sprite = GetLayer(layer).CreateSprite(texture.Path, OsbOrigin.Centre, position);
                     sprite.MoveX(startTime, position.X);
                     sprite.Scale(startTime, fontScale);
                     sprite.Fade(startTime, 1);
@@ -544,7 +544,7 @@ namespace StorybrewScripts
         {
             var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
 
-            var bg = GetLayer("dropdown-text-bg").CreateSprite("sb/common/pixel.png", OsbOrigin.TopLeft, new Vector2(-107, 0));
+            var bg = GetLayer("dropdown-bg").CreateSprite("sb/common/pixel.png", OsbOrigin.TopLeft, new Vector2(-107, 0));
             bg.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat, new Vector2(854, 0), new Vector2(854, 480));
             bg.Color(startTime, color);
             bg.Fade(startTime, 1);
@@ -554,6 +554,47 @@ namespace StorybrewScripts
             element.MoveY(OsbEasing.InCirc, endTime - beat, endTime, 200, 560);
             element.Fade(startTime, 1);
             element.Fade(endTime, 0);
+
+            var numberOfLine = (float)text.Split('\n').Length;
+            var posX = 0f;
+            var lineWidth = 0f;
+            var lineHeight = 0f;
+            foreach (var line in text.Split('\n'))
+            {
+                lineHeight = 0f;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    lineWidth = Math.Max(lineWidth, texture.BaseWidth * 0.3f);
+                    lineHeight += texture.BaseHeight * 0.3f;
+                    posX = (float)(numberOfLine % 2 == 0 ? 320f - ((numberOfLine - 1) / 2) * (lineWidth + 10) : 320f - ((numberOfLine - 1) / 2) * (lineWidth + 10));
+                }
+            }
+            foreach (var line in text.Split('\n'))
+            {
+                var letterX = posX;
+                var letterY = 0 - lineHeight;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    if (!texture.IsEmpty)
+                    {
+                        var position = new Vector2(letterX, letterY);
+                        var sprite = GetLayer("dropdown-text").CreateSprite(texture.Path, OsbOrigin.Centre, position);
+                        sprite.MoveY(OsbEasing.OutCirc, startTime, startTime + beat, letterY, letterY + 340);
+                        sprite.MoveY(OsbEasing.InCirc, endTime - beat, endTime, letterY + 340, letterY + 700);
+                        sprite.Scale(startTime, 0.3f);
+                        sprite.Fade(startTime, 1);
+                        sprite.Fade(endTime, 0);
+                    }
+
+                    letterY += texture.BaseHeight * 0.3f;
+                    Log("letterY " + letterY);
+                }
+                posX += (lineWidth + 10);
+                Log("----");
+            }
+
         }
 
         /*=============================================
@@ -570,19 +611,18 @@ namespace StorybrewScripts
                 FontStyle = FontStyle.Regular,
                 TrimTransparency = true
             });
-            var fontHonokaMincho = LoadFont("sb/lyrics/HonokaMincho", new FontDescription()
+            var fontYasashisaAntique = LoadFont("sb/lyrics/YasashisaAntique", new FontDescription()
             {
-                FontPath = "HonokaMincho.ttf",
-                FontSize = 72,
+                FontPath = "YasashisaAntique.otf",
+                FontSize = 70,
                 Color = Color4.White,
                 Padding = Vector2.Zero,
                 FontStyle = FontStyle.Regular,
                 TrimTransparency = true
             });
-
             Scene1(fontSoukouMincho);
             Scene2();
-            Scene3(fontSoukouMincho);
+            Scene3(fontYasashisaAntique);
         }
     }
 }

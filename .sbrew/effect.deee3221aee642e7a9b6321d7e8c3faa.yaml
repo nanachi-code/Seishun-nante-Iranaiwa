@@ -47,13 +47,18 @@ Layers:
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
-  2c40834dba1a43a6b578c606bc561c78:
-    Name: "dropdown-text-bg"
+  747e7773dcb74c2aa8864974c3c775a8:
+    Name: "dropdown-bg"
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
-  27b8f22788114c65bf33c00cb5d57621:
-    Name: "dropdown-text-element"
+  794da6931fc14045a2297d8f92351812:
+    Name: "dropdown-text"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  fe6ae1de095346118bb902d96976cadf:
+    Name: "dropdown-element"
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
