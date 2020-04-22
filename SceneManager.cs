@@ -149,7 +149,7 @@ namespace StorybrewScripts
             generateVerticalStripeBackground(15734, 17118, 45, yellowColor, 30, true);
             generateVerticalStripeBackground(17580, 18965, 45, redColor, 0, true);
             generateVerticalStripeBackground(19426, 20811, 60, blueColor, 60, false);
-            generateHorizontalStripeBackground(21272, 23118, 60, blueMarineColor, true);
+            generateHorizontalStripeBackground(21272, 23118, 60, blueMarineColor, true, false);
             generateVerticalStripeTransition(22657, 60, whiteColor, 45, true);
 
             // Girl
@@ -559,6 +559,7 @@ namespace StorybrewScripts
             var posX = 0f;
             var lineWidth = 0f;
             var lineHeight = 0f;
+            var textPadding = 10;
             foreach (var line in text.Split('\n'))
             {
                 lineHeight = 0f;
@@ -567,7 +568,7 @@ namespace StorybrewScripts
                     var texture = font.GetTexture(letter.ToString());
                     lineWidth = Math.Max(lineWidth, texture.BaseWidth * 0.3f);
                     lineHeight += texture.BaseHeight * 0.3f;
-                    posX = (float)(numberOfLine % 2 == 0 ? 320f - ((numberOfLine - 1) / 2) * (lineWidth + 10) : 320f - ((numberOfLine - 1) / 2) * (lineWidth + 10));
+                    posX = (float)(numberOfLine % 2 == 0 ? 320f - ((numberOfLine - 1) / 2) * (lineWidth + textPadding) : 320f - ((numberOfLine - 1) / 2) * (lineWidth + textPadding));
                 }
             }
             foreach (var line in text.Split('\n'))
@@ -589,10 +590,8 @@ namespace StorybrewScripts
                     }
 
                     letterY += texture.BaseHeight * 0.3f;
-                    Log("letterY " + letterY);
                 }
-                posX += (lineWidth + 10);
-                Log("----");
+                posX += (lineWidth + textPadding);
             }
 
         }
