@@ -52,7 +52,7 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="Lyrics.cs" />
+    <Compile Include="Particles.cs" />
     <Compile Include="RemoveBackground.cs" />
     <Compile Include="SceneManager.cs" />
   </ItemGroup>

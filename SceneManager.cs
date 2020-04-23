@@ -83,8 +83,8 @@ namespace StorybrewScripts
             //* Background
             generateBackgroundColor(4195, 4657, whiteColor);
             generateBackgroundColor(4657, 5118, magentaColor);
-            generateBackgroundColor(5118, 6041, whiteColor);
-            generateBackgroundColor(6041, 6965, violetColor);
+            generateBackgroundColor(5118, 6272, whiteColor);
+            generateBackgroundColor(6272, 6965, violetColor);
             generateBackgroundColor(6965, 8349, whiteColor);
 
             //* Lyrics
@@ -96,8 +96,8 @@ namespace StorybrewScripts
                 sprite.MoveX(4657, 320 + 107);
                 sprite.MoveX(5118, 320 + 854 / 4);
                 sprite.Color(5118, violetColor);
-                sprite.Color(6041, Color4.White);
-                sprite.MoveX(6041, 320 + 107 + 854 / 4);
+                sprite.Color(6272, Color4.White);
+                sprite.MoveX(6272, 320 + 107 + 854 / 4);
                 sprite.Color(6965, blueMarineColor);
             };
             generateVeritcalText("君の", font, 0.1f, 320, 240, "lyrics", 4195, 7426, line2word1);
@@ -108,8 +108,8 @@ namespace StorybrewScripts
                 sprite.Color(4657, Color4.White);
                 sprite.MoveX(5118, 320);
                 sprite.Color(5118, violetColor);
-                sprite.Color(6041, Color4.White);
-                sprite.MoveX(6041, 320 + 107);
+                sprite.Color(6272, Color4.White);
+                sprite.MoveX(6272, 320 + 107);
                 sprite.Color(6965, blueMarineColor);
             };
             generateVeritcalText("横顔を", font, 0.1f, 320 - 107, 240, "lyrics", 4657, 7426, line2word2);
@@ -118,8 +118,8 @@ namespace StorybrewScripts
             AdditionalCommands line2word3 = (sprite) =>
             {
                 sprite.Color(5118, violetColor);
-                sprite.Color(6041, Color4.White);
-                sprite.MoveX(6041, 320 - 107);
+                sprite.Color(6272, Color4.White);
+                sprite.MoveX(6272, 320 - 107);
                 sprite.Color(6965, blueMarineColor);
             };
             generateVeritcalText("追った", font, 0.1f, 320 - 854 / 4, 240, "lyrics", 5118, 7426, line2word3);
@@ -127,10 +127,10 @@ namespace StorybrewScripts
             // 一瞬、
             AdditionalCommands line2word4 = (sprite) =>
             {
-                sprite.Color(6041, Color4.White);
+                sprite.Color(6272, Color4.White);
                 sprite.Color(6965, blueMarineColor);
             };
-            generateVeritcalText("一瞬、", font, 0.1f, 320 - 107 - 854 / 4, 240, "lyrics", 6041, 7426, line2word4);
+            generateVeritcalText("一瞬、", font, 0.1f, 320 - 107 - 854 / 4, 240, "lyrics", 6272, 7426, line2word4);
 
             // もう一瞬
             AdditionalCommands line2word5 = (sprite) =>
@@ -222,6 +222,37 @@ namespace StorybrewScripts
             var bubble = GetLayer("dropdown-element").CreateSprite("sb/elements/bubble.png", OsbOrigin.BottomCentre);
             bubble.Scale(32349, 0.3);
             generateDropdownTextAndElement(32349, 33272, "何かが\n鳴った", font, redColor, bubble);
+
+            var bg = GetLayer("dropdown-bg").CreateSprite("sb/common/pixel.png", OsbOrigin.TopLeft, new Vector2(-107, 0));
+            bg.ScaleVec(OsbEasing.OutCirc, 33272, 33734, new Vector2(854, 0), new Vector2(854, 480));
+            bg.Color(33272, blueMarineColor);
+            bg.Fade(33272, 1);
+            bg.Fade(37888, 0);
+
+            var bigCircle = GetLayer("circle").CreateSprite("sb/common/circle.png", OsbOrigin.Centre);
+            bigCircle.Scale(OsbEasing.OutCirc, 33272, 33734, 0.2, 1);
+            bigCircle.Color(33272, yellowColor);
+            bigCircle.Fade(33272, 1);
+            bigCircle.Fade(37888, 0);
+
+            var innerCircle = GetLayer("circle").CreateSprite("sb/common/circle.png", OsbOrigin.Centre);
+            innerCircle.Scale(OsbEasing.OutCirc, 33272, 33734, 0.2, 0.9);
+            innerCircle.Color(33272, whiteColor);
+            innerCircle.Fade(33272, 1);
+            innerCircle.Fade(37888, 0);
+
+            var girlShadow = GetLayer("girl-on-circle").CreateSprite("sb/elements/s-girl-w.png", OsbOrigin.Centre, new Vector2(315, 243));
+            girlShadow.Color(33734, yellowColor);
+            girlShadow.Scale(OsbEasing.OutCirc, 33734, 34195, 0.0, 0.2);
+            girlShadow.Rotate(33734, 37888, 0, MathHelper.DegreesToRadians(-15));
+            girlShadow.Fade(33734, 1);
+
+            girl = GetLayer("girl-on-circle").CreateSprite("sb/elements/s-girl.png", OsbOrigin.Centre);
+            girl.Scale(OsbEasing.OutCirc, 33734, 34195, 0.0, 0.2);
+            girl.Rotate(33734, 37888, 0, MathHelper.DegreesToRadians(-15));
+            girl.Fade(33734, 1);
+            girl.Fade(37888, 0);
+
         }
 
         /*=============================================

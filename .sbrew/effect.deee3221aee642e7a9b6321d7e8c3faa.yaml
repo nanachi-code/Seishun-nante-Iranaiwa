@@ -62,6 +62,16 @@ Layers:
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
+  04a0b517d68e41d185cdb9bd470b721f:
+    Name: "circle"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  07a13daa2bf847c1bdf34f0a07ad3e64:
+    Name: "girl-on-circle"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
   361077aa314e4f8db4c495f9fde03a72:
     Name: "transition"
     OsbLayer: Background
