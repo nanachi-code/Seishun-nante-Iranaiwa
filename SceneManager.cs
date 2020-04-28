@@ -162,7 +162,9 @@ namespace StorybrewScripts
 
         private void Scene3(FontGenerator font)
         {
-            //* 1st half
+            /*=============================================
+            //*               1st half
+            =============================================*/
             generateBackgroundColor(23118, 24503, yellowColor);
             generateVerticalStripeBackground(24041, 25426, 60, blueColor, -60, true, false);
             generateVerticalStripeBackground(24965, 27272, 45, magentaColor, 45, false, false);
@@ -173,14 +175,17 @@ namespace StorybrewScripts
             generateBackgroundColor(30041, 30272, magentaColor);
             generateBackgroundColor(30272, 30964, yellowColor);
 
-            // Sleeping girl
+            //* Lyrics
+            generateScrollUpTiltedRightAlignedText(23118, 29580, "もうちょっとだけ\n大人でいたくて\n夏際くるぶしに\n少し掠るくらいで\n歩いている", 0.2f, new Vector2(270, 170), 228, -30, font, whiteColor);
+
+            //* Sleeping girl
             var girl = GetLayer("elements").CreateSprite("sb/elements/s-girl.png", OsbOrigin.Centre);
             girl.Scale(23118, 0.5);
             girl.Fade(23118, 1);
             girl.Fade(30272, 0);
             girl.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
 
-            // Ice cream
+            //* Ice cream
             var icecreamW = GetLayer("elements-w").CreateSprite("sb/elements/ice-cream-w.png", OsbOrigin.Centre);
             icecreamW.Scale(23118, 0.5);
             icecreamW.Fade(23118, 0);
@@ -191,7 +196,7 @@ namespace StorybrewScripts
             icecreamW.Color(30272, magentaColor);
             icecreamW.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
 
-            // Girl white 2
+            //* Girl white 2
             var girlW2 = GetLayer("elements-w").CreateSprite("sb/elements/s-girl-w-2.png", OsbOrigin.Centre);
             girlW2.Scale(23118, 0.5);
             girlW2.Fade(23118, 0);
@@ -201,7 +206,7 @@ namespace StorybrewScripts
             girlW2.Color(30272, redColor);
             girlW2.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
 
-            // Bubble
+            //* Bubble
             var bubbleW = GetLayer("elements-w").CreateSprite("sb/elements/bubble-w.png", OsbOrigin.Centre);
             bubbleW.Scale(23118, 0.5);
             bubbleW.Color(30272, blueColor);
@@ -210,7 +215,9 @@ namespace StorybrewScripts
             bubbleW.Fade(30964, 0);
             bubbleW.Move(23118, 30964, new Vector2(754, 480), new Vector2(615, 240));
 
-            //* 2nd half
+            /*=============================================
+            //*              2nd half
+            =============================================*/
             var mask = GetLayer("dropdown-element").CreateSprite("sb/elements/mask.png", OsbOrigin.BottomCentre);
             mask.Scale(30503, 0.2);
             generateDropdownTextAndElement(30503, 31426, "小さく", font, blueColor, mask);
@@ -227,34 +234,70 @@ namespace StorybrewScripts
             bg.ScaleVec(OsbEasing.OutCirc, 33272, 33734, new Vector2(854, 0), new Vector2(854, 480));
             bg.Color(33272, blueMarineColor);
             bg.Fade(33272, 1);
-            bg.Fade(37888, 0);
+            bg.Fade(37426, 0);
 
+            //* Circles + elements
             var bigCircle = GetLayer("circle").CreateSprite("sb/common/circle.png", OsbOrigin.Centre);
-            bigCircle.Scale(OsbEasing.OutCirc, 33272, 33734, 0.2, 1);
+            bigCircle.Scale(OsbEasing.OutCirc, 33272, 33734, 0.2, 1.05);
             bigCircle.Color(33272, yellowColor);
             bigCircle.Fade(33272, 1);
-            bigCircle.Fade(37888, 0);
+            bigCircle.Fade(37426, 0);
 
             var innerCircle = GetLayer("circle").CreateSprite("sb/common/circle.png", OsbOrigin.Centre);
-            innerCircle.Scale(OsbEasing.OutCirc, 33272, 33734, 0.2, 0.9);
+            innerCircle.Scale(OsbEasing.OutCirc, 33272, 33734, 0, 0.95);
             innerCircle.Color(33272, whiteColor);
             innerCircle.Fade(33272, 1);
-            innerCircle.Fade(37888, 0);
+            innerCircle.Fade(37426, 0);
 
             var girlShadow = GetLayer("girl-on-circle").CreateSprite("sb/elements/s-girl-w.png", OsbOrigin.Centre, new Vector2(315, 243));
             girlShadow.Color(33734, yellowColor);
             girlShadow.Scale(OsbEasing.OutCirc, 33734, 34195, 0.0, 0.2);
-            girlShadow.Rotate(33734, 37888, 0, MathHelper.DegreesToRadians(-15));
+            girlShadow.Scale(34195, 37426, 0.2, 0.17);
+            girlShadow.Rotate(33734, 37426, 0, MathHelper.DegreesToRadians(-15));
             girlShadow.Fade(33734, 1);
 
             girl = GetLayer("girl-on-circle").CreateSprite("sb/elements/s-girl.png", OsbOrigin.Centre);
             girl.Scale(OsbEasing.OutCirc, 33734, 34195, 0.0, 0.2);
-            girl.Rotate(33734, 37888, 0, MathHelper.DegreesToRadians(-15));
+            girl.Scale(34195, 37426, 0.2, 0.17);
+            girl.Rotate(33734, 37426, 0, MathHelper.DegreesToRadians(-15));
             girl.Fade(33734, 1);
-            girl.Fade(37888, 0);
+            girl.Fade(37426, 0);
 
+            //* Particle pool
+            using (var pool = new OsbSpritePool(GetLayer("particles-on-circle"), "sb/common/circle.png", OsbOrigin.Centre, (sprite, startTime, endTime) =>
+            {
+                var rScale = Random(0.002, 0.006);
+                var rColor = Random(0, 2);
+
+                sprite.Scale(33272, rScale);
+                sprite.Color(33272, rColor == 0 ? blueMarineColor : yellowColor);
+            }))
+            {
+                var particleAmount = 500;
+                for (int i = 0; i < particleAmount; i++)
+                {
+                    var sprite = pool.Get(33734, 37426);
+                    var startX = Random(-107, 747);
+                    var startY = Random(0, 480);
+
+                    sprite.Move(33272, 37426, new Vector2(startX, startY), new Vector2(startX + Random(-50, 50), startY + Random(-50, 50)));
+                    sprite.Fade(33272, 33734, 0, 1);
+                    sprite.Fade(37426, 0);
+                }
+            }
+
+            //* Lyrics
+            generateRotatingSplitText(33734, 37426, 36964, "いつも横顔を", "追っていたんだ", 0.2f, 20, 100, 50, font);
+
+            // Transition
+            generateCentreRectangleTransition(36964, 37657, blueColor);
+            generateCentreRectangleTransition(37426, 37888, blueMarineColor);
         }
 
+        private void Scene4(FontGenerator font)
+        {
+            generateBackgroundColor(37657, 52657, whiteColor);
+        }
         /*=============================================
         //*             Helper Methods
         =============================================*/
@@ -300,9 +343,9 @@ namespace StorybrewScripts
                     {
                         callback(sprite);
                     }
-                }
 
-                letterY += texture.BaseHeight * fontScale;
+                    letterY += texture.BaseHeight * fontScale;
+                }
             }
         }
 
@@ -332,9 +375,9 @@ namespace StorybrewScripts
                     {
                         callback(sprite);
                     }
-                }
 
-                letterX += texture.BaseWidth * fontScale;
+                    letterX += texture.BaseWidth * fontScale;
+                }
             }
         }
 
@@ -590,7 +633,7 @@ namespace StorybrewScripts
             var posX = 0f;
             var lineWidth = 0f;
             var lineHeight = 0f;
-            var textPadding = 10;
+            var textPadding = 20;
             foreach (var line in text.Split('\n'))
             {
                 lineHeight = 0f;
@@ -618,13 +661,222 @@ namespace StorybrewScripts
                         sprite.Scale(startTime, 0.3f);
                         sprite.Fade(startTime, 1);
                         sprite.Fade(endTime, 0);
-                    }
 
-                    letterY += texture.BaseHeight * 0.3f;
+                        letterY += texture.BaseHeight * 0.3f;
+                    }
                 }
                 posX += (lineWidth + textPadding);
             }
 
+        }
+
+        private void generateScrollUpTiltedRightAlignedText(double startTime, double endTime, string text, float fontScale, Vector2 startPosition, float distance, int angle, FontGenerator font, Color4 color)
+        {
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+
+            // startPosition is actually the top right coordinate of the last letter of the first line.
+            var currentPosition = startPosition;
+            var time = startTime;
+            var numberOfLetters = text.Replace("\n", "").Length;
+            var textPadding = 10;
+            foreach (var line in text.Split('\n'))
+            {
+                var lineWidth = 0f;
+                var lineHeight = 0f;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    lineWidth += texture.BaseWidth * fontScale + textPadding;
+                    lineHeight = Math.Max(texture.BaseHeight * fontScale, lineHeight);
+                }
+
+                var letterX = currentPosition.X - lineWidth * (float)Math.Cos(MathHelper.DegreesToRadians(Math.Abs(angle)));
+                var letterY = currentPosition.Y + lineWidth * (float)Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle)));
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    if (!texture.IsEmpty)
+                    {
+                        var position = new Vector2(letterX, letterY) + texture.OffsetFor(OsbOrigin.TopRight) * fontScale;
+                        var sprite = GetLayer("lyrics").CreateSprite(texture.Path, OsbOrigin.Centre, position);
+                        sprite.Rotate(startTime, MathHelper.DegreesToRadians(angle));
+                        sprite.Scale(startTime, fontScale);
+                        sprite.Fade(startTime, 0);
+                        sprite.Fade(time, 1);
+                        sprite.Fade(endTime, 0);
+                        sprite.MoveX(startTime, endTime, letterX, letterX - distance * (float)Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle))));
+                        sprite.MoveY(startTime, endTime, letterY, letterY - distance * (float)Math.Cos(MathHelper.DegreesToRadians(Math.Abs(angle))));
+
+                        letterX += (texture.BaseWidth * fontScale + textPadding) * (float)Math.Cos(MathHelper.DegreesToRadians(Math.Abs(angle)));
+                        letterY -= (texture.BaseWidth * fontScale + textPadding) * (float)Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle)));
+                        time += (double)((endTime - startTime - beat / 2) / numberOfLetters);
+                    }
+                }
+
+                currentPosition.X += (lineHeight + textPadding) * (float)Math.Sin(MathHelper.DegreesToRadians(Math.Abs(angle)));
+                currentPosition.Y += (lineHeight + textPadding) * (float)Math.Cos(MathHelper.DegreesToRadians(Math.Abs(angle)));
+            }
+        }
+
+        private void generateRotatingSplitText(double startTime, double endTime, double textEndTime, string text1, string text2, float fontScale, int angle, int offsetTopY, int offsetBottomY, FontGenerator font)
+        {
+            // preconfigured options
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+            var timeStep = beat / 8;
+            var radius = 150;
+            var angleStep = angle / ((endTime - startTime) / timeStep);
+            var t = (int)((endTime - startTime) / timeStep);
+            var textPadding = 10;
+
+            // text1
+            var text1Postition = new Vector2(320, 240) - new Vector2(radius, offsetTopY);
+            var time = startTime;
+            var numberOfLetters = text1.Replace("\n", "").Length;
+            int lineOrder = 0;
+            foreach (var line in text1.Split('\n'))
+            {
+                var lineWidth = 0f;
+                var lineHeight = 0f;
+                int letterOrder = line.Length;
+                var textureWidth = 0f;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    textureWidth = texture.BaseWidth * fontScale;
+                    lineWidth += texture.BaseWidth * fontScale + textPadding;
+                    lineHeight = Math.Max(texture.BaseHeight * fontScale, lineHeight);
+                }
+
+                var letterX = text1Postition.X - lineWidth - textureWidth;
+                var letterY = text1Postition.Y;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    if (!texture.IsEmpty)
+                    {
+                        var position = new Vector2(letterX, letterY) + texture.OffsetFor(OsbOrigin.CentreRight) * fontScale;
+                        var sprite = GetLayer("lyrics-on-circle").CreateSprite(texture.Path, OsbOrigin.CentreRight, position);
+                        sprite.Scale(startTime, fontScale);
+                        if (time != startTime)
+                        {
+                            sprite.Fade(startTime, 0);
+                        }
+                        sprite.Fade(time, 1);
+                        sprite.Fade(endTime, 0);
+                        sprite.Color(startTime, Random(0, 2) == 0 ? redColor : blueColor);
+                        // loop
+                        var currentTime = startTime;
+                        var currentAngle = 0 + angleStep;
+                        var currentPosition = position;
+
+                        for (int i = 0; i < t; i++)
+                        {
+                            var targetPosition = new Vector2();
+                            targetPosition.X = (float)(320 - (radius + letterOrder * (20 + textPadding)) * Math.Cos(MathHelper.DegreesToRadians(currentAngle)) + (lineOrder * (20 + textPadding)) * Math.Sin(MathHelper.DegreesToRadians(currentAngle)));
+                            targetPosition.Y = (float)((240 - offsetTopY) + (radius + letterOrder * (20 + textPadding)) * Math.Sin(MathHelper.DegreesToRadians(currentAngle)) + (lineOrder * (20 + textPadding)) * Math.Cos(MathHelper.DegreesToRadians(currentAngle)));
+                            sprite.Move(currentTime, currentTime + timeStep, currentPosition, targetPosition);
+                            sprite.Rotate(currentTime, MathHelper.DegreesToRadians(-currentAngle));
+
+                            currentTime += timeStep;
+                            currentAngle += angleStep;
+                            currentPosition = targetPosition;
+                        }
+
+                        letterX -= (texture.BaseWidth * fontScale + textPadding);
+                        time += (double)(((textEndTime - startTime) / 2 - beat / 2) / numberOfLetters);
+                        letterOrder--;
+                    }
+                }
+
+                text1Postition.Y += (lineHeight + textPadding);
+
+                lineOrder++;
+            }
+
+            // text2
+            var text2Postition = new Vector2(320, 240) + new Vector2(radius, offsetBottomY);
+            numberOfLetters = text2.Replace("\n", "").Length;
+            lineOrder = 0;
+            foreach (var line in text2.Split('\n'))
+            {
+                var lineWidth = 0f;
+                var lineHeight = 0f;
+                int letterOrder = 0;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    lineWidth += texture.BaseWidth * fontScale + textPadding;
+                    lineHeight = Math.Max(texture.BaseHeight * fontScale, lineHeight);
+                }
+
+                var letterX = text2Postition.X;
+                var letterY = text2Postition.Y;
+                foreach (var letter in line)
+                {
+                    var texture = font.GetTexture(letter.ToString());
+                    if (!texture.IsEmpty)
+                    {
+                        var position = new Vector2(letterX, letterY) + texture.OffsetFor(OsbOrigin.CentreLeft) * fontScale;
+                        var sprite = GetLayer("lyrics-on-circle").CreateSprite(texture.Path, OsbOrigin.CentreLeft, position);
+                        sprite.Scale(startTime, fontScale);
+                        sprite.Fade(startTime, 0);
+                        sprite.Fade(time, 1);
+                        sprite.Fade(endTime, 0);
+                        sprite.Color(startTime, Random(0, 2) == 0 ? redColor : blueColor);
+                        // loop
+                        var currentTime = startTime;
+                        var currentAngle = 0 + angleStep;
+                        var currentPosition = position;
+
+                        for (int i = 0; i < t; i++)
+                        {
+                            var targetPosition = new Vector2();
+                            targetPosition.X = (float)(320 + (radius + letterOrder * (20 + textPadding)) * Math.Cos(MathHelper.DegreesToRadians(currentAngle)) + (lineOrder * (20 + textPadding)) * Math.Sin(MathHelper.DegreesToRadians(currentAngle)));
+                            targetPosition.Y = (float)((240 + offsetBottomY) - (radius + letterOrder * (20 + textPadding)) * Math.Sin(MathHelper.DegreesToRadians(currentAngle)) + (lineOrder * (20 + textPadding)) * Math.Cos(MathHelper.DegreesToRadians(currentAngle)));
+                            sprite.Move(currentTime, currentTime + timeStep, currentPosition, targetPosition);
+                            sprite.Rotate(currentTime, MathHelper.DegreesToRadians(-currentAngle));
+
+                            currentTime += timeStep;
+                            currentAngle += angleStep;
+                            currentPosition = targetPosition;
+                        }
+                        Log(letterY.ToString());
+                        letterX += (texture.BaseWidth * fontScale + textPadding);
+                        time += (double)(((textEndTime - startTime) / 2 - beat / 2) / numberOfLetters);
+                        letterOrder++;
+                    }
+                }
+
+                text2Postition.Y += (lineHeight + textPadding);
+
+                lineOrder++;
+            }
+        }
+
+        private void generateCentreRectangleTransition(double startTime, double endTime, Color4 color)
+        {
+            var beat = Beatmap.GetTimingPointAt(965).BeatDuration;
+            var leftSprite1 = GetLayer("transition").CreateSprite("sb/common/pixel.png", OsbOrigin.CentreRight, new Vector2(320, 240));
+            leftSprite1.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat / 2, new Vector2(0, 480), new Vector2(427, 480));
+            leftSprite1.Fade(startTime, 1);
+            leftSprite1.Fade(endTime - beat / 2, 0);
+            leftSprite1.Color(startTime, color);
+            var rightSprite1 = GetLayer("transition").CreateSprite("sb/common/pixel.png", OsbOrigin.CentreLeft, new Vector2(320, 240));
+            rightSprite1.ScaleVec(OsbEasing.OutCirc, startTime, startTime + beat / 2, new Vector2(0, 480), new Vector2(427, 480));
+            rightSprite1.Fade(startTime, 1);
+            rightSprite1.Fade(endTime - beat / 2, 0);
+            rightSprite1.Color(startTime, color);
+
+            var leftSprite2 = GetLayer("transition").CreateSprite("sb/common/pixel.png", OsbOrigin.CentreLeft, new Vector2(-107, 240));
+            leftSprite2.ScaleVec(OsbEasing.InQuad, endTime - beat / 2, endTime, new Vector2(427, 480), new Vector2(0, 480));
+            leftSprite2.Fade(endTime - beat / 2, 1);
+            leftSprite2.Fade(endTime, 0);
+            leftSprite2.Color(endTime - beat / 2, color);
+            var rightSprite2 = GetLayer("transition").CreateSprite("sb/common/pixel.png", OsbOrigin.CentreRight, new Vector2(747, 240));
+            rightSprite2.ScaleVec(OsbEasing.InQuad, endTime - beat / 2, endTime, new Vector2(427, 480), new Vector2(0, 480));
+            rightSprite2.Fade(endTime - beat / 2, 1);
+            rightSprite2.Fade(endTime, 0);
+            rightSprite2.Color(endTime - beat / 2, color);
         }
 
         /*=============================================
@@ -653,6 +905,7 @@ namespace StorybrewScripts
             Scene1(fontSoukouMincho);
             Scene2();
             Scene3(fontYasashisaAntique);
+            Scene4(fontYasashisaAntique);
         }
     }
 }

@@ -22,11 +22,6 @@ Layers:
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
-  b9779d0af1f64930a11ef78c52d61ddf:
-    Name: "lyrics"
-    OsbLayer: Background
-    DiffSpecific: No
-    Visible: Yes
   f5e29207934c43aea90d8b01f5e98099:
     Name: "open-stripe"
     OsbLayer: Background
@@ -34,6 +29,11 @@ Layers:
     Visible: Yes
   591bf998fa454fbabc60d1c46e7465d4:
     Name: "close-stripe"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  b9779d0af1f64930a11ef78c52d61ddf:
+    Name: "lyrics"
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
@@ -67,8 +67,18 @@ Layers:
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
+  5b243b24f63b4b2fb135be7d45acc35f:
+    Name: "particles-on-circle"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
   07a13daa2bf847c1bdf34f0a07ad3e64:
     Name: "girl-on-circle"
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: Yes
+  109d31d98091466e87299e2302c23ea4:
+    Name: "lyrics-on-circle"
     OsbLayer: Background
     DiffSpecific: No
     Visible: Yes
